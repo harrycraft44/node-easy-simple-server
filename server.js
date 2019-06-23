@@ -1,14 +1,15 @@
-var http = require('http');
-var server = http.createServer();
+var eventEmitter = require('events').EventEmitter;
+var counter = 0;
+var em = new eventEmitter();
 
-server.on('request', function (request, response) {
-    console.log('request event');
-    response.writeHead(200, { 'Content-Type': 'text/plain' });
-    response.end('Hello World\n');
+setTimeout(function (name) {
+    console.log('Hello ' + name);
+}, 3000, 'Shelley');
+
+setInterval(function () {
+    em.emit('contador', counter++);
+}, 3000);
+
+em.on('contador', function () {
+    console.log("contador: " + counter);
 });
-
-server.listen(3000, function () {
-    console.log('listening event');
-});
-
-console.log('Server running on port 3000');
