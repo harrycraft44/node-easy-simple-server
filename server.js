@@ -5,25 +5,13 @@ const port = 3000;
 const routes = require("./routes");
 const server = http.createServer(routes.handleRequest);
 
-// define o encoding para leitura do buffer
-process.stdin.setEncoding('utf8');
+let buf = new Buffer('This is my pretty example');
+let json = JSON.stringify(buf);
+let string = buf.toString();
 
-// monitora o evento readable
-process.stdin.on('readable', function () {
-    // lê o input de entrada
-    var input = process.stdin.read();
-
-    if (input !== null) {
-        // echo the text
-        process.stdout.write("input read is: " + input);
-
-        var command = input.trim();
-        if (command == 'pid')
-            // sai do processo
-            console.log(process.pid)
-
-    }
-});
+console.log("buf: ", buf);
+console.log("json: ", json);
+console.log("string: ", string);
 
 server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
