@@ -1,18 +1,14 @@
-const http = require('http');
-const hostname = '127.0.0.1';
-const port = 3000;
+var http = require('http');
+var server = http.createServer();
 
-const routes = require("./routes");
-const server = http.createServer(routes.handleRequest);
-
-let buf = new Buffer('This is my pretty example');
-let json = JSON.stringify(buf);
-let string = buf.toString();
-
-console.log("buf: ", buf);
-console.log("json: ", json);
-console.log("string: ", string);
-
-server.listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`);
+server.on('request', function (request, response) {
+    console.log('request event');
+    response.writeHead(200, { 'Content-Type': 'text/plain' });
+    response.end('Hello World\n');
 });
+
+server.listen(3000, function () {
+    console.log('listening event');
+});
+
+console.log('Server running on port 3000');
